@@ -37,39 +37,7 @@ public class EmployeeResource {
 	public Employee updateEmployee(@PathParam("employeeId") long id, Employee employee) {
 		employee.setId(id);
 		return employeeService.updateEmployee(employee); 
-	} 
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}
 	
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
