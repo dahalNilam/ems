@@ -40,8 +40,6 @@ public class EmployeeResource {
 	}
 	
 	@POST
-	@Consumes(MediaType.APPLICATION_JSON)
-	@Produces(MediaType.APPLICATION_JSON)
 	public Employee addEmployee(Employee employee) {
 		return employeeService.addEmployee(employee);
 	}

@@ -17,12 +17,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	public List<Employee> getEmployeeList() {
-		
 		return employeeDao.findAll();
 	}
 	
 	public Employee getEmployee(long id) {
-		return new Employee(id, "Nilam", "Manager", null);
+		return employeeDao.findById(id);
 	}
 
 	public Employee addEmployee(Employee employee) {
