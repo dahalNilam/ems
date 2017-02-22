@@ -1,58 +1,38 @@
 package com.nilam.serviceImpl;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import com.nilam.dao.EmployeeDao;
-import com.nilam.daoImpl.EmployeeDaoImpl;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import com.nilam.domain.Employee;
+import com.nilam.repository.EmployeeRepository;
 import com.nilam.service.EmployeeService;
 
+@Service
 public class EmployeeServiceImpl implements EmployeeService {
+
+	@Autowired
+	EmployeeRepository employeeRepository;		
 	
-	private EmployeeDao employeeDao = new EmployeeDaoImpl();
-	
-	public EmployeeServiceImpl() {
-		populate();
-	}
-	
-	public List<Employee> getEmployeeList() {
-		return employeeDao.findAll();
-	}
-	
-	public Employee getEmployee(long id) {
-		return employeeDao.findById(id);
+	@Override
+	public void save(Employee employee) {
+		employeeRepository.save(employee);
 	}
 
-	public Employee addEmployee(Employee employee) {
-		employeeDao.create(employee);
-		return employeeDao.findById(employee.getId());
+	@Override
+	public List<Employee> getAllEmployee() {
+		return (List<Employee>) employeeRepository.findAll();
 	}
 
-	public Employee updateEmployee(Employee employee) {
-		return employee;
-	}
-	
-	protected void populate() {
-		for(Employee employee : this.addEmployeesToList()) {
-			employeeDao.create(employee);
-		}
-	}
-	
-	protected List<Employee> addEmployeesToList() {
-		List<Employee> employeeList = new ArrayList<>();
-		Employee e1 = new Employee(1l, "Nilam", "Manager", null);
-		Employee e2 = new Employee(2l, "Manish", "CEO", null);
-		Employee e3 = new Employee(3l, "Prajil", "Programmer", null);
-		Employee e4 = new Employee(4l, "Gyanu", "Tester", null);
-		
-		
-		employeeList.add(e1);
-		employeeList.add(e2);
-		employeeList.add(e3);
-		employeeList.add(e4);
-		
-		return employeeList;
+	@Override
+	public Employee getEmployeeByEmployeeId(Long employeeId) {
+		return employeeRepository.findOne(employeeId);
 	}
 
+	@Override
+	public void delete(Long employeeId) {
+		employeeRepository.delete(employeeId);
+
+	}
 }

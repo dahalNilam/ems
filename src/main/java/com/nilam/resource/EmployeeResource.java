@@ -1,5 +1,6 @@
 package com.nilam.resource;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ws.rs.Consumes;
@@ -11,6 +12,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.nilam.domain.Employee;
 import com.nilam.serviceImpl.EmployeeServiceImpl;
 
@@ -19,29 +22,48 @@ import com.nilam.serviceImpl.EmployeeServiceImpl;
 @Produces(MediaType.APPLICATION_JSON)
 public class EmployeeResource {
 
-	EmployeeServiceImpl employeeService = new EmployeeServiceImpl();
+	@Autowired
+	EmployeeServiceImpl employeeService;
 
 	@GET
 	public List<Employee> getEmployeeList() {
-		return employeeService.getEmployeeList();
+//		return employeeService.getAllEmployee();
+		return this.addEmployeesToList();
 	}
-	
+
 	@GET
 	@Path(value="{employeeId}")
-	public Employee getEmployee(@PathParam("employeeId") long id) {
-		return employeeService.getEmployee(id);
+	public Employee getEmployee(@PathParam("employeeId") long employeeId) {
+		return employeeService.getEmployeeByEmployeeId(employeeId);
 	}
-	
+
 	@PUT
 	@Path(value="{employeeId}")
-	public Employee updateEmployee(@PathParam("employeeId") long id, Employee employee) {
+	public void updateEmployee(@PathParam("employeeId") long id, Employee employee) {
 		employee.setId(id);
-		return employeeService.updateEmployee(employee); 
+		employeeService.save(employee);
+	}
+
+	@POST
+	public void addEmployee(Employee employee) {
+		employeeService.save(employee);
 	}
 	
-	@POST
-	public Employee addEmployee(Employee employee) {
-		return employeeService.addEmployee(employee);
+	
+	protected List<Employee> addEmployeesToList() {
+		List<Employee> employeeList = new ArrayList<>();
+		Employee e1 = new Employee(1l, "Nilam", "Manager", null);
+		Employee e2 = new Employee(2l, "Manish", "CEO", null);
+		Employee e3 = new Employee(3l, "Prajil", "Programmer", null);
+		Employee e4 = new Employee(4l, "Gyanu", "Tester", null);
+		
+		
+		employeeList.add(e1);
+		employeeList.add(e2);
+		employeeList.add(e3);
+		employeeList.add(e4);
+		
+		return employeeList;
 	}
 
 }
